@@ -1,0 +1,302 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Happy Birthday, My Love</title>
+    <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Poppins:wght@300;400;600&display=swap" rel="stylesheet" />
+    <style>
+      :root {
+        --card-radius: 14px;
+        --shadow: 0 8px 30px rgba(0,0,0,0.12);
+        --accent: #0ea5e9;
+      }
+      * { box-sizing: border-box; }
+      body {
+        margin: 0;
+        min-height: 100vh;
+        min-height: 100svh;
+        display: grid;
+        place-items: center;
+        background: radial-gradient(1200px 800px at 20% 10%, #ffe4e6 0%, #fce7f3 35%, #e9d5ff 70%, #e2e8f0 100%);
+        animation: bgShift 16s ease-in-out infinite alternate;
+        font-family: 'Poppins', ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Ubuntu, Cantarell, Noto Sans, Helvetica Neue, Arial, "Apple Color Emoji", "Segoe UI Emoji";
+        color: #0f172a;
+        -webkit-tap-highlight-color: transparent;
+        padding: env(safe-area-inset-top) env(safe-area-inset-right) env(safe-area-inset-bottom) env(safe-area-inset-left);
+      }
+      @keyframes bgShift {
+        0% { background-position: 0% 0%; }
+        100% { background-position: 100% 100%; }
+      }
+      .wrap {
+        display: grid;
+        gap: 18px;
+        justify-items: center;
+        padding: 24px;
+      }
+      .header {
+        display: grid;
+        gap: 8px;
+        justify-items: center;
+        text-align: center;
+        z-index: 2;
+      }
+      .title-script {
+        font-family: 'Great Vibes', cursive;
+        font-size: clamp(36px, 7vw, 64px);
+        color: #be185d;
+        text-shadow: 0 6px 18px rgba(190,24,93,.25);
+        letter-spacing: .5px;
+      }
+      .subtitle {
+        font-size: clamp(14px, 2.6vw, 18px);
+        color: #475569;
+        max-width: 720px;
+      }
+      .card {
+        width: min(90vw, 520px);
+        height: min(115vw, 520px);
+        perspective: 1400px;
+        z-index: 2;
+      }
+      .card-inner {
+        position: relative;
+        width: 100%;
+        height: 100%;
+        transition: transform 0.7s cubic-bezier(.2,.8,.2,1);
+        transform-style: preserve-3d;
+        cursor: pointer;
+        border-radius: var(--card-radius);
+        box-shadow: var(--shadow);
+        background: #fff;
+        outline: 2px solid rgba(190,24,93,.12);
+        outline-offset: -2px;
+      }
+      .card-inner.flipped { transform: rotateY(180deg); }
+      .card-face {
+        position: absolute;
+        inset: 0;
+        display: grid;
+        place-items: center;
+        overflow: hidden;
+        border-radius: var(--card-radius);
+        backface-visibility: hidden;
+        -webkit-backface-visibility: hidden;
+        background: #ffffff;
+      }
+      .card-front img {
+        width: 100%;
+        height: 100%;
+        object-fit: contain;
+        background: #ffffff;
+        user-select: none;
+        -webkit-user-drag: none;
+      }
+      .card-back {
+        transform: rotateY(180deg);
+        padding: 28px;
+        text-align: center;
+      }
+      .back-text {
+        font-size: clamp(16px, 2.6vw, 28px);
+        line-height: 1.35;
+        font-weight: 600;
+        color: #0f172a;
+        max-width: 86%;
+        margin: 0 auto;
+      }
+      .hint {
+        font-size: 14px;
+        color: #64748b;
+      }
+      .audio-btn {
+        appearance: none;
+        border: 0;
+        background: linear-gradient(135deg, #fb7185, #e879f9);
+        color: white;
+        padding: 10px 14px;
+        border-radius: 999px;
+        font-weight: 600;
+        box-shadow: 0 8px 20px rgba(236,72,153,.25);
+        cursor: pointer;
+        transition: transform .15s ease, filter .2s ease;
+      }
+      .audio-btn:hover { transform: translateY(-1px); filter: brightness(1.05); }
+      .audio-hint { font-size: 12px; color: #64748b; }
+
+      .hearts {
+        position: fixed;
+        inset: 0;
+        overflow: hidden;
+        pointer-events: none;
+        z-index: 1;
+      }
+      .heart {
+        position: absolute;
+        bottom: -10vh;
+        font-size: 16px;
+        color: #f43f5e;
+        opacity: .7;
+        animation: floatUp linear infinite;
+        filter: drop-shadow(0 6px 12px rgba(244,63,94,.25));
+      }
+      @keyframes floatUp {
+        0% { transform: translateY(0) translateX(0) rotate(0deg); opacity: 0; }
+        10% { opacity: .85; }
+        100% { transform: translateY(-120vh) translateX(20px) rotate(12deg); opacity: 0; }
+      }
+
+      @media (max-width: 480px) {
+        body { place-items: start center; }
+        .wrap { gap: 14px; padding: 16px; }
+        .subtitle { font-size: 14px; padding: 0 8px; }
+        .card { width: 92vw; height: auto; aspect-ratio: 3 / 4; perspective: 1200px; }
+        .back-text { font-size: clamp(16px, 4.5vw, 22px); line-height: 1.4; max-width: 90%; }
+      }
+    </style>
+  </head>
+  <body>
+    <div id="root"></div>
+
+    <!-- React from CDN (no build step needed) -->
+    <script crossorigin src="https://unpkg.com/react@18/umd/react.development.js"></script>
+    <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+
+    <script type="text/babel">
+      const IMAGE_PATH = "love.jpg";
+
+      function popConfetti() {
+        if (window.confetti) {
+          const defaults = { origin: { y: 0.65 } };
+          function fire(particleRatio, opts) {
+            window.confetti(Object.assign({}, defaults, opts, {
+              particleCount: Math.floor(280 * particleRatio)
+            }));
+          }
+          fire(0.25, { spread: 26, startVelocity: 45 });
+          fire(0.2, { spread: 60 });
+          fire(0.35, { spread: 100, decay: 0.92, scalar: 0.9 });
+          fire(0.1, { spread: 120, startVelocity: 35, decay: 0.92, scalar: 1.2 });
+        }
+      }
+
+      function FloatingHearts({ count = 16 }) {
+        const items = React.useMemo(() =>
+          Array.from({ length: count }).map((_, i) => ({
+            id: i,
+            left: Math.random() * 100,
+            delay: Math.random() * 6,
+            duration: 8 + Math.random() * 6,
+            size: 14 + Math.random() * 18,
+            hue: 340 + Math.random() * 20
+          })), [count]
+        );
+        return (
+          <div className="hearts">
+            {items.map(h => (
+              <span
+                key={h.id}
+                className="heart"
+                style={{
+                  left: `${h.left}%`,
+                  animationDelay: `${h.delay}s`,
+                  animationDuration: `${h.duration}s`,
+                  fontSize: `${h.size}px`,
+                  color: `hsl(${h.hue} 90% 60%)`
+                }}
+              >❤</span>
+            ))}
+          </div>
+        );
+      }
+
+      function AudioPlayer() {
+        const audioRef = React.useRef(null);
+        const [isPlaying, setIsPlaying] = React.useState(false);
+        const [available, setAvailable] = React.useState(true);
+        const toggle = async () => {
+          const el = audioRef.current;
+          if (!el) return;
+          try {
+            if (isPlaying) { el.pause(); setIsPlaying(false); }
+            else { await el.play(); setIsPlaying(true); }
+          } catch (e) {
+            // ignore
+          }
+        };
+        return (
+          <div style={{ display: 'grid', gap: 6, justifyItems: 'center' }}>
+            {available ? (
+              <button className="audio-btn" onClick={toggle}>
+                {isPlaying ? '⏸ Pause music' : '♪ Play music'}
+              </button>
+            ) : (
+              <div className="audio-hint">Add a file named <strong>song.mp3</strong> next to this page to enable music.</div>
+            )}
+            <audio
+              ref={audioRef}
+              src="song.mp3"
+              preload="none"
+              onEnded={() => setIsPlaying(false)}
+              onError={() => setAvailable(false)}
+            />
+          </div>
+        );
+      }
+
+      function FlipCard({ backText = "Your text here" }) {
+        const [isFlipped, setIsFlipped] = React.useState(false);
+        const toggle = () => setIsFlipped(v => !v);
+        const onKey = (e) => {
+          if (e.key === 'Enter' || e.key === ' ') {
+            e.preventDefault();
+            toggle();
+          }
+        };
+
+        React.useEffect(() => {
+          if (isFlipped) popConfetti();
+        }, [isFlipped]);
+
+        return (
+          <div className="wrap">
+            <div className="header">
+              <div className="title-script">Happy Birthday, My Love</div>
+              <div className="subtitle">Every day with you is my favorite day. Thank you for being my sunshine, my safe place, and my greatest adventure. Today we celebrate you. 💖</div>
+              <AudioPlayer />
+            </div>
+            <div className="card" onClick={toggle} onKeyDown={onKey} role="button" tabIndex={0} aria-pressed={isFlipped} title="Tap to flip">
+              <div className={`card-inner ${isFlipped ? 'flipped' : ''}`}>
+                <div className="card-face card-front">
+                  <img src={IMAGE_PATH} alt="Front" />
+                </div>
+                <div className="card-face card-back">
+                  <div className="back-text">{backText}</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        );
+      }
+
+      function App() {
+        const isSmall = typeof window !== 'undefined' && window.matchMedia && window.matchMedia('(max-width: 480px)').matches;
+        const HEARTS = isSmall ? 10 : 18;
+        return (
+          <>
+            <FloatingHearts count={HEARTS} />
+            <FlipCard backText={"To my favorite person,\n\nYou make my world brighter just by being in it. I’m so grateful for your laugh, your heart, and the way you love.\n\nMay this year bring you all the joy you bring to everyone around you.\n\nForever yours."} />
+          </>
+        );
+      }
+
+      const root = ReactDOM.createRoot(document.getElementById('root'));
+      root.render(<App />);
+    </script>
+  </body>
+  </html>
+
+
