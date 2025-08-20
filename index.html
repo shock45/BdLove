@@ -18,7 +18,7 @@
         min-height: 100svh;
         display: grid;
         place-items: center;
-        background: radial-gradient(1200px 800px at 20% 10%, #ffe4e6 0%, #fce7f3 35%, #e9d5ff 70%, #e2e8f0 100%);
+        background: radial-gradient(1200px 800px at 20% 10%, #e0f2fe 0%, #bfdbfe 30%, #e9d5ff 65%, #fce7f3 85%, #e2e8f0 100%);
         animation: bgShift 16s ease-in-out infinite alternate;
         font-family: 'Poppins', ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Ubuntu, Cantarell, Noto Sans, Helvetica Neue, Arial, "Apple Color Emoji", "Segoe UI Emoji";
         color: #0f172a;
@@ -70,7 +70,7 @@
         border-radius: var(--card-radius);
         box-shadow: var(--shadow);
         background: #fff;
-        outline: 2px solid rgba(190,24,93,.12);
+        outline: 2px solid rgba(14,165,233,.18);
         outline-offset: -2px;
       }
       .card-inner.flipped { transform: rotateY(180deg); }
@@ -85,6 +85,19 @@
         -webkit-backface-visibility: hidden;
         background: #ffffff;
       }
+      .card-front { position: relative; }
+      .card-front::after {
+        content: "";
+        position: absolute;
+        inset: 0;
+        pointer-events: none;
+        background:
+          linear-gradient(180deg, rgba(14,165,233,.06), rgba(14,165,233,0) 35%) top / 100% 40% no-repeat,
+          linear-gradient(0deg, rgba(99,102,241,.05), rgba(99,102,241,0) 35%) bottom / 100% 40% no-repeat,
+          radial-gradient(120px 90px at 8% 10%, rgba(191,219,254,.25) 0%, rgba(191,219,254,0) 70%),
+          radial-gradient(140px 100px at 92% 90%, rgba(186,230,253,.25) 0%, rgba(186,230,253,0) 70%);
+        box-shadow: inset 0 0 60px rgba(30,58,138,.08), inset 0 0 120px rgba(14,165,233,.06);
+      }
       .card-front img {
         width: 100%;
         height: 100%;
@@ -92,11 +105,25 @@
         background: #ffffff;
         user-select: none;
         -webkit-user-drag: none;
+        border-radius: inherit;
       }
       .card-back {
         transform: rotateY(180deg);
         padding: 28px;
         text-align: center;
+        position: relative;
+        background: linear-gradient(180deg, #ffffff 0%, #f8fafc 100%);
+      }
+      .card-back::before {
+        content: "";
+        position: absolute;
+        inset: 0;
+        pointer-events: none;
+        background:
+          linear-gradient(135deg, rgba(59,130,246,.12), rgba(59,130,246,0) 60%) top left / 60% 45% no-repeat,
+          linear-gradient(-45deg, rgba(56,189,248,.12), rgba(56,189,248,0) 60%) bottom right / 60% 45% no-repeat,
+          radial-gradient(150px 100px at 82% 18%, rgba(191,219,254,.35) 0%, rgba(191,219,254,0) 60%),
+          radial-gradient(170px 120px at 18% 82%, rgba(186,230,253,.35) 0%, rgba(186,230,253,0) 60%);
       }
       .back-text {
         font-size: clamp(16px, 2.6vw, 28px);
@@ -105,6 +132,43 @@
         color: #0f172a;
         max-width: 86%;
         margin: 0 auto;
+        position: relative;
+        z-index: 0;
+        padding: 20px 22px;
+        border-radius: 16px;
+        background: linear-gradient(180deg, rgba(224,242,254,.6), rgba(255,255,255,.7));
+        outline: 1px solid rgba(14,165,233,.18);
+        box-shadow: 0 10px 24px rgba(2,132,199,.08);
+        backdrop-filter: blur(6px);
+        -webkit-backdrop-filter: blur(6px);
+      }
+      .back-text::before {
+        content: "";
+        position: absolute;
+        inset: 0;
+        z-index: -1;
+        border-radius: inherit;
+        pointer-events: none;
+        background:
+          radial-gradient(8px 8px at 20% 30%, rgba(191,219,254,.5) 0%, rgba(191,219,254,0) 70%),
+          radial-gradient(12px 12px at 80% 70%, rgba(186,230,253,.45) 0%, rgba(186,230,253,0) 70%),
+          radial-gradient(6px 6px at 70% 20%, rgba(221,214,254,.45) 0%, rgba(221,214,254,0) 70%);
+        opacity: .55;
+      }
+      .back-text::after {
+        content: "";
+        position: absolute;
+        left: 8%;
+        right: 8%;
+        top: 12px;
+        bottom: 12px;
+        pointer-events: none;
+        background:
+          radial-gradient(circle at center, rgba(14,165,233,.35) 0 2px, transparent 3px) top center / 10px 10px no-repeat,
+          linear-gradient(to right, rgba(14,165,233,.18), rgba(14,165,233,.18)) top center / 100% 1px no-repeat,
+          radial-gradient(circle at center, rgba(14,165,233,.35) 0 2px, transparent 3px) bottom center / 10px 10px no-repeat,
+          linear-gradient(to right, rgba(14,165,233,.18), rgba(14,165,233,.18)) bottom center / 100% 1px no-repeat;
+        opacity: .8;
       }
       .hint {
         font-size: 14px;
@@ -113,12 +177,12 @@
       .audio-btn {
         appearance: none;
         border: 0;
-        background: linear-gradient(135deg, #fb7185, #e879f9);
+        background: linear-gradient(135deg, #38bdf8, #60a5fa);
         color: white;
         padding: 10px 14px;
         border-radius: 999px;
         font-weight: 600;
-        box-shadow: 0 8px 20px rgba(236,72,153,.25);
+        box-shadow: 0 8px 20px rgba(14,165,233,.25);
         cursor: pointer;
         transition: transform .15s ease, filter .2s ease;
       }
@@ -185,14 +249,18 @@
 
       function FloatingHearts({ count = 16 }) {
         const items = React.useMemo(() =>
-          Array.from({ length: count }).map((_, i) => ({
-            id: i,
-            left: Math.random() * 100,
-            delay: Math.random() * 6,
-            duration: 8 + Math.random() * 6,
-            size: 14 + Math.random() * 18,
-            hue: 340 + Math.random() * 20
-          })), [count]
+          Array.from({ length: count }).map((_, i) => {
+            const isBlue = Math.random() < 0.5;
+            const hue = isBlue ? 200 + Math.random() * 30 : 335 + Math.random() * 20;
+            return {
+              id: i,
+              left: Math.random() * 100,
+              delay: Math.random() * 6,
+              duration: 8 + Math.random() * 6,
+              size: 14 + Math.random() * 18,
+              hue
+            };
+          }), [count]
         );
         return (
           <div className="hearts">
@@ -205,7 +273,9 @@
                   animationDelay: `${h.delay}s`,
                   animationDuration: `${h.duration}s`,
                   fontSize: `${h.size}px`,
-                  color: `hsl(${h.hue} 90% 60%)`
+                  color: `hsl(${h.hue} 90% 60%)`,
+                  textShadow: `0 6px 12px hsl(${h.hue} 90% 60% / 0.25)`,
+                  filter: `drop-shadow(0 6px 12px hsl(${h.hue} 90% 60% / 0.25))`
                 }}
               >❤</span>
             ))}
@@ -268,7 +338,7 @@
               <div className="subtitle">Every day with you is my favorite day. Thank you for being my sunshine, my safe place, and my greatest adventure. Today we celebrate you. 💖</div>
               <AudioPlayer />
             </div>
-            <div className="card" onClick={toggle} onKeyDown={onKey} role="button" tabIndex={0} aria-pressed={isFlipped} title="Tap to flip">
+            <div className="card" onClick={toggle} onKeyDown={onKey} role="button" tabIndex={0} aria-pressed={isFlipped} aria-label="Flip card">
               <div className={`card-inner ${isFlipped ? 'flipped' : ''}`}>
                 <div className="card-face card-front">
                   <img src={IMAGE_PATH} alt="Front" />
